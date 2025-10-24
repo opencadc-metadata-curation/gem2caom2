@@ -5,7 +5,7 @@ In an empty directory (the 'working directory'), on a machine with Docker instal
 1. In the master branch of this repository, find the scripts directory, and copy the file gem_run_public.sh to the working directory. e.g.:
 
   ```
-  wget https://raw.github.com/opencadc/gem2caom2/master/scripts/gem_run_public.sh
+  wget https://raw.github.com/opencadc-metadata-curation/gem2caom2/master/scripts/gem_run_public.sh
   ```
 
 2. Ensure the script is executable:
@@ -29,7 +29,7 @@ In an empty directory (the 'working directory'), on a machine with Docker instal
 1. In the master branch of this repository, find the scripts directory, and copy the file gem_run_incremental.sh to the working directory. e.g.:
 
   ```
-  wget https://raw.github.com/opencadc/gem2caom2/master/scripts/gem_run_incremental.sh
+  wget https://raw.github.com/opencadc-metadata-curation/gem2caom2/master/scripts/gem_run_incremental.sh
   ```
 
 2. Ensure the script is executable:
