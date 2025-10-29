@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE="opencadc/gem2caom2"
+IMAGE="opencadc-metadata-curation/gem2caom2"
 
 echo "Get a proxy certificate"
 cp $HOME/.ssl/cadcproxy.pem ./ || exit $?

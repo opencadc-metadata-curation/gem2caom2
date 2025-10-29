@@ -1,5 +1,5 @@
 ARG OPENCADC_PYTHON_VERSION=3.12
-FROM opencadc/pandas:${OPENCADC_PYTHON_VERSION}-slim AS builder
+FROM opencadc-metadata-curation/pandas:${OPENCADC_PYTHON_VERSION}-slim AS builder
 
 RUN apt-get update --no-install-recommends  && apt-get dist-upgrade -y && \
     apt-get install -y build-essential \
