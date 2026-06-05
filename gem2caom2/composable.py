@@ -2,7 +2,7 @@
 # ******************  CANADIAN ASTRONOMY DATA CENTRE  *******************
 # *************  CENTRE CANADIEN DE DONNÉES ASTRONOMIQUES  **************
 #
-#  (c) 2025.                            (c) 2025.
+#  (c) 2026.                            (c) 2026.
 #  Government of Canada                 Gouvernement du Canada
 #  National Research Council            Conseil national de recherches
 #  Ottawa, Canada, K1A 0R6              Ottawa, Canada, K1A 0R6
@@ -132,6 +132,7 @@ def _common_init():
             cleanup_augmentation,
         ]
     mc.StorageName.collection = config.collection
+    mc.StorageName.namespace = config.namespace
     mc.StorageName.scheme = config.scheme
     mc.StorageName.preview_scheme = config.preview_scheme
     return clients, config, meta_visitors, md_context

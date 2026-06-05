@@ -2,7 +2,7 @@
 # ******************  CANADIAN ASTRONOMY DATA CENTRE  *******************
 # *************  CENTRE CANADIEN DE DONNÉES ASTRONOMIQUES  **************
 #
-#  (c) 2025.                            (c) 2025.
+#  (c) 2026.                            (c) 2026.
 #  Government of Canada                 Gouvernement du Canada
 #  National Research Council            Conseil national de recherches
 #  Ottawa, Canada, K1A 0R6              Ottawa, Canada, K1A 0R6
@@ -71,6 +71,7 @@ from caom2pipe.manage_composable import Config, StorageName
 import pytest
 
 COLLECTION = 'GEMINI'
+NAMESPACE = 'GEMINI'
 SCHEME = 'gemini'
 PREVIEW_SCHEME = 'cadc'
 
@@ -82,6 +83,7 @@ TEST_DATA_DIR = join(THIS_DIR, 'data')
 def test_config():
     config = Config()
     config.collection = COLLECTION
+    config.namespace = NAMESPACE
     config.preview_scheme = PREVIEW_SCHEME
     config.scheme = SCHEME
     config.logging_level = 'INFO'
@@ -89,6 +91,7 @@ def test_config():
     config.rejected_file_name = 'rejected.yml'
     config.data_source_extensions = ['.fits', '.fits.bz2']
     StorageName.collection = config.collection
+    StorageName.namespace = config.namespace
     StorageName.preview_scheme = config.preview_scheme
     StorageName.scheme = config.scheme
     StorageName.data_source_extensions = config.data_source_extensions
