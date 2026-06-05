@@ -2,7 +2,7 @@
 # ******************  CANADIAN ASTRONOMY DATA CENTRE  *******************
 # *************  CENTRE CANADIEN DE DONNÉES ASTRONOMIQUES  **************
 #
-#  (c) 2025.                            (c) 2025.
+#  (c) 2026.                            (c) 2026.
 #  Government of Canada                 Gouvernement du Canada
 #  National Research Council            Conseil national de recherches
 #  Ottawa, Canada, K1A 0R6              Ottawa, Canada, K1A 0R6
@@ -231,13 +231,13 @@ def test_visitor(
         '2007sep15_0001.fits',
         'TX20131117_flt.3002.fits',
         'TX20131117_raw.3002.fits',
-        'S20240601S0038_blue001_dragons.fits',
-        'S20240607S0038.fits',
     ]:
         # the proprietary files
         pull_mock.assert_not_called(), 'pull mock not called'
     else:
         pull_mock.assert_called_once(), 'pull mock called once'
+
+    # assert False
 
 
 def _get_inst_name(inst):

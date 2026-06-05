@@ -175,9 +175,9 @@ def _retrieve_from_gemini(
     plane,
     preview_fqn,
 ):
-    logging.debug(f'Retrieve {gem_name.prev} from archive.gemini.edu.')
     temp = basename(gem_name.file_name)
     preview_url = f'{PREVIEW_URL}{temp}'
+    logging.debug(f'Retrieve {gem_name.prev} from archive.gemini.edu at {preview_url}.')
     try:
         mc.http_get(preview_url, preview_fqn)
     except Exception as e:
@@ -201,6 +201,7 @@ def get_representation(clients, storage_name, working_dir, plane, observable):
         thumb_fqn = join(working_dir, storage_name.thumb)
         if prev_info:
             # get the preview from CADC
+            logging.debug(f'Retrieve {storage_name.prev} from CADC at {storage_name.prev_uri}.')
             clients.data_client.get(working_dir, storage_name.prev_uri)
         else:
             # get the preview from Gemini
@@ -209,6 +210,7 @@ def get_representation(clients, storage_name, working_dir, plane, observable):
                 clients.data_client.put(working_dir, storage_name.prev_uri)
                 count += 1
             else:
+                logging.error(f'Could not retrieve {storage_name.prev_uri} from archive.gemini.edu')
                 return count
 
         # build the thumbnail - include the retry for failure to pull down the preview from Gemini
