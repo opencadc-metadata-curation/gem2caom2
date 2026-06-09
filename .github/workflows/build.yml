@@ -1,0 +1,17 @@
+name: GEMINI CAOM-2 image build
+
+on:
+  release:
+
+jobs:
+  #
+  # Package jobs
+  #
+  package:
+    uses: ./.github/workflows/docker.yml
+    secrets: inherit
+    with:
+      name: gem2caom2
+  #
+  # End Package Jobs
+  #
