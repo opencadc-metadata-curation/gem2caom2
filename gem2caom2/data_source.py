@@ -186,24 +186,20 @@ class PublicIncremental(dsc.QueryTimeBoxDataSource):
         # datetime format 2019-12-01T00:00:00.000000
         prev_dt_str = prev_exec_dt.strftime(ISO_8601_FORMAT)
         exec_dt_str = exec_dt.strftime(ISO_8601_FORMAT)
-        query = (
-            f"SELECT O.observationID, A.uri, A.lastModified "
-            f"FROM caom2.Observation AS O "
-            f"JOIN caom2.Plane AS P ON O.obsID = P.obsID "
-            f"JOIN caom2.Artifact AS A ON P.planeID = A.planeID "
-            f"WHERE P.planeID IN ( "
-            f"  SELECT A.planeID "
-            f"  FROM caom2.Observation AS O "
-            f"  JOIN caom2.Plane AS P ON O.obsID = P.obsID "
-            f"  JOIN caom2.Artifact AS A ON P.planeID = A.planeID "
-            f"  WHERE O.collection = '{self._config.collection}' "
-            f"  GROUP BY A.planeID "
-            f"  HAVING COUNT(A.artifactID) = 1 ) "
-            f"AND P.dataRelease > '{prev_dt_str}' "
-            f"AND P.dataRelease <= '{exec_dt_str}' "
-            f"ORDER BY O.maxLastModified ASC "
-            ""
-        )
+        query = f"""SELECT O.observationID, A.uri, A.lastModified
+            FROM caom2.Observation AS O
+            JOIN caom2.Plane ON O.obsID = caom2.Plane.obsID
+            JOIN caom2.Artifact AS A ON caom2.Plane.planeID = A.planeID
+            WHERE O.collection = '{self._config.collection}'
+            AND caom2.Plane.dataRelease > '{prev_dt_str}'
+            AND caom2.Plane.dataRelease <= '{exec_dt_str}'
+            AND (
+                SELECT COUNT(*)
+                FROM caom2.Artifact AS A2
+                WHERE A2.planeID = caom2.Plane.planeID
+            ) = 1
+            ORDER BY O.maxLastModified ASC
+        """
         result = clc.query_tap_client(query, self._query_client)
         # results look like:
         # GN-2019B-ENG-1-160-008, gemini:GEM/N20191202S0125.fits, ISO 8601
