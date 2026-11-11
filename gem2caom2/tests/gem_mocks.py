@@ -79,6 +79,7 @@ from collections import OrderedDict
 from datetime import datetime, timezone
 from hashlib import md5
 from mock import Mock
+from pathlib import Path
 
 from cadcdata import FileInfo
 from caom2.diff import get_differences
@@ -97,12 +98,25 @@ from gem2caom2.util import Inst
 
 THIS_DIR = os.path.dirname(os.path.realpath(__file__))
 TEST_DATA_DIR = os.path.join(THIS_DIR, 'data')
+
+
+def use_test_data_cache(test_config):
+    """Point cache_file_name at tests/data/cache.yml.
+
+    An absolute name still resolves there after change_working_directory
+    moves the working directory to a temp path. os.path.join keeps an
+    absolute second component.
+    """
+    test_config.cache_file_name = os.path.join(TEST_DATA_DIR, 'cache.yml')
+
+
 PLUGIN = os.path.join(os.path.dirname(THIS_DIR), 'main_app.py')
 TEST_FILE = os.path.join(TEST_DATA_DIR, 'from_paul.txt')
 
 FIRST_FILE_LIST = os.path.join(TEST_DATA_DIR, 'S20191010S0.html')
 SECOND_FILE_LIST = os.path.join(TEST_DATA_DIR, 'S20191010S3.html')
-STATE_FILE = '/usr/src/app/state.yml'
+HERE = Path(__file__).resolve().parent
+STATE_FILE = HERE / 'data/state.yml'
 TOO_MANY_FILE_LIST = os.path.join(TEST_DATA_DIR, 'too_many_rows.html')
 
 TEST_TODO_LIST = OrderedDict(
@@ -639,6 +653,7 @@ LOOKUP = {
     'N20190313A0002r': ['N20190313A0002', Inst.ALOPEKE, 'GN-2019A-Q-214'],
     'N20191219A0001b': ['N20191219A0001', Inst.ALOPEKE, 'GN-2020A-Q-132'],
     'N20191219A0001r': ['N20191219A0001', Inst.ALOPEKE, 'GN-2020A-Q-132'],
+    'N20150721G0040': ['', Inst.UNKNOWN, ''],  # test with no data label
 }
 
 call_count = 0
@@ -830,7 +845,8 @@ def mock_query_endpoint_2(url, timeout=-1):
 def mock_query_endpoint_reproduce(url, timeout=-1):
     # returns response.json
     def x():
-        fqn = f'/usr/src/app/gem2caom2/gem2caom2/tests/data/json/reproduce.json'
+        here = Path(__file__).resolve().parent
+        fqn = here / 'data/json/reproduce.json'
         with open(fqn) as f:
             temp = f.read()
         return json.loads(temp)
@@ -962,6 +978,7 @@ def compare(expected_fqn, actual_fqn, observation):
                     f'Differences found in observation {expected.observation_id}\n{compare_text}.\nCheck {actual_fqn}'
                 )
         else:
+            mc.write_obs_to_file(observation, actual_fqn)
             raise AssertionError(f'No expected observation here {expected_fqn}. See actual here {actual_fqn}')
     else:
         raise AssertionError(f'No observation created for comparison with {expected_fqn}')
@@ -1060,6 +1077,7 @@ def _run_test_common(
     test_config.change_working_directory(tmp_path.as_posix())
     test_config.proxy_file_name = 'test_proxy.pem'
     test_config.logging_level = 'ERROR'
+    use_test_data_cache(test_config)
     test_config.write_to_file(test_config)
     set_logging(test_config)
 

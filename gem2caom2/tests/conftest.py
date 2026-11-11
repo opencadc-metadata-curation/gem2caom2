@@ -87,6 +87,8 @@ def test_config():
     config.preview_scheme = PREVIEW_SCHEME
     config.scheme = SCHEME
     config.logging_level = 'INFO'
+    config.working_directory = TEST_DATA_DIR
+    config.cache_file_name = 'cache.yml'
     config.rejected_directory = TEST_DATA_DIR
     config.rejected_file_name = 'rejected.yml'
     config.data_source_extensions = ['.fits', '.fits.bz2']

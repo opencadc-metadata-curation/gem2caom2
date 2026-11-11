@@ -1,0 +1,93 @@
+filter_replacement:
+  # Alopeke and Zorro are two names for one instrument.
+  # The filter values will never diverge.
+  # Alopeke/ZORRO == FOX in Hawaiian and Spanish
+  Alopeke: &alopeke
+    'Red-832': 'EO_832'
+    'Blue-u': 'u_sdss'
+    'Blue-466': 'EO_466'
+    'Blue-g': 'g_sdss'
+    'Blue-562': 'EO_562'
+    'Blue-r': 'r_sdss'
+    'Blue-Halpha': 'Halpha'
+    'Red-716': 'EO_716'
+    'Red-i': 'i_sdss'
+    'Red-z': 'z_sdss'
+  Zorro: *alopeke
+  NICI:
+    'CH4-H4S': 'ED451'
+    'CH4-H4L': 'ED449'
+    'CH4-H1S': 'ED286'
+    'CH4-H1Sp': 'ED379'
+    '': 'ED299'
+    'CH4-H1L': 'ED381'
+    'CH4-H1L_2': 'ED283'
+  # note the lookup repair values are not what comes from the files,
+  # they're what's left after the re.sub calls have completed
+  # DB 06-05-19
+  # The NIRI filter should map to SVO's NIRI.CO2-0bh-G0225. bh = band-head.
+  NIRI:
+    'H2v=2-1s1-G0220': 'H2S1v2-1-G0220'
+    'H2v=2-1S1-G0220w': 'H2S1v2-1-G0220w'
+    'H2v=2-1S1-G0220': 'H2S1v2-1-G0220'
+    'H2v=1-0s1-G0216': 'H2S1v1-0-G0216'
+    'H2v=1-0S1-G0216': 'H2S1v1-0-G0216'
+    'H2Oice_G0230': 'H2Oice-G0230w'
+    'Brgamma-G0218': 'BrG-G0218'
+    'Bra-G0238': 'BrAlpha-G0238'
+    'Bracontt-G0237': 'BrAlphaCont-G0237'
+    'CH4ice227-G0243': 'CH4ice2275-G0243'
+    'COv=2-0bh-G0225': 'CO2-0bh-G0225'
+    'hydrocarb-G0231': 'hydrocarbon-G0231'
+    'H2Oice204-G0242': 'H2Oice2045-G0242'
+    'Jcont121-G0232': 'Jcont1207-G0232'
+    'H2v=2-1s1_G0220': 'H2S1v2-1-G0220'
+  # DB 23-04-19
+  # The Qs-18.3um is likely intended to be the same as Qa since 18.3 is the
+  # central wavelength of that filter.
+  TReCS:
+    'K': 'k'
+    'L': 'l'
+    'M': 'm'
+    'N': 'n'
+    'Nprime': 'nprime'
+    'Qw': 'Qwide'
+    'Qs': 'Qa'
+    'NeII_ref2': 'NeII_ref'
+    'SIV-10.5um': 'SIV'
+  michelle:
+    'I79B10': 'Si1'
+    'I88B10': 'Si2'
+    'I97B10': 'Si3'
+    'I103B10': 'Si4'
+    'I105B53': 'N'
+    'I112B21': 'Np'
+    'I116B9': 'Si5'
+    'I125B9': 'Si6'
+    'I185B9': 'Qa'
+    'I209B42': 'Q'
+  # DB 02-04-19
+  # The GSAOI filter CO2360 should map to SVO filter GSAOI.CO
+  # DB 04-24-19
+  # H2(1-0) filter maps to SVO H2_1-0
+  # DB 04-30-19
+  # Kcntshrt and HeI-2p2s should map to Kshort_cont and HeI2p2s.
+  # PaG for GS-CAL20180731-5-017 = SVO's HIPaGamma
+  # DB 02-05-19
+  # BrG is Brackett Gamma again, so in SVO it is GSAOI.HIBrGamma.
+  # I think H2(2-1) must be GSAOI.H2_2-1_S1.  That observation shows
+  # up when you search the Gemini archive for that particular
+  # observation and set the filter to "H2 2-1 (S1)".
+  # DB 06-05-19
+  # PaB = HIPaBeta.
+  GSAOI:
+    'BrG': 'HIBrGamma'
+    'CO2360': 'CO'
+    'HeI1083': 'HeI'
+    'HeI-2p2s': 'HeI2p2s'
+    'H2(1-0)': 'H2_1-0'
+    'H2(2-1)': 'H2_2-1_S1'
+    'Kcntlong': 'Klong_cont'
+    'Kcntshrt': 'Kshort_cont'
+    'PaB': 'HIPaBeta'
+    'PaG': 'HIPaGamma'

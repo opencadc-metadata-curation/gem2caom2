@@ -95,6 +95,7 @@ setup(name=PACKAGENAME,
           'config/config_with_ingest.yml', 
           'config/config_with_visit.yml',
           'config/state.yml',
+          'config/cache.yml',
       ])],
       classifiers=[
         'Natural Language :: English',

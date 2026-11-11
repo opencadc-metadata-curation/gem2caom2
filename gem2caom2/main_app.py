@@ -772,54 +772,58 @@ class GeminiMapping(cc.TelescopeMapping2):
         return self._observation
 
     def _build_chunk_energy(self, chunk, filter_name):
-        # If n_axis=1 (as I guess it will be for all but processes GRACES
-        # spectra now?) that means crpix=0.5 and the corresponding crval would
-        # central_wl - bandpass/2.0 (i.e. the minimum wavelength).   It is fine
-        # if you instead change crpix to 1.0.   I guess since the ‘range’ of
-        # one pixel is 0.5 to 1.5.
+        if self.fm is not None:
+            # If n_axis=1 (as I guess it will be for all but processes GRACES
+            # spectra now?) that means crpix=0.5 and the corresponding crval would
+            # central_wl - bandpass/2.0 (i.e. the minimum wavelength).   It is fine
+            # if you instead change crpix to 1.0.   I guess since the ‘range’ of
+            # one pixel is 0.5 to 1.5.
 
-        axis = CoordAxis1D(axis=Axis(ctype='WAVE', cunit='um'))
-        ref_coord1 = RefCoord(0.5, self.fm.central_wl - self.fm.bandpass / 2.0)
-        ref_coord2 = RefCoord(1.5, self.fm.central_wl + self.fm.bandpass / 2.0)
-        axis.range = CoordRange1D(ref_coord1, ref_coord2)
+            axis = CoordAxis1D(axis=Axis(ctype='WAVE', cunit='um'))
+            ref_coord1 = RefCoord(0.5, self.fm.central_wl - self.fm.bandpass / 2.0)
+            ref_coord2 = RefCoord(1.5, self.fm.central_wl + self.fm.bandpass / 2.0)
+            axis.range = CoordRange1D(ref_coord1, ref_coord2)
 
-        # DB - 14-02-19 value looks clearer (as two filters) with a space on
-        # both sides of the ‘+’.
-        bandpass_name = None if (filter_name is None or len(filter_name) == 0) else filter_name.replace('+', ' + ')
+            # DB - 14-02-19 value looks clearer (as two filters) with a space on
+            # both sides of the ‘+’.
+            bandpass_name = None if (filter_name is None or len(filter_name) == 0) else filter_name.replace('+', ' + ')
 
-        if bandpass_name is not None and 'empty' in bandpass_name:
-            # DB 02-12-19 - But some files have filters open1-6 and empty_01.
-            # So likely less confusing to remove ‘empty*’ completely.
-            #
-            # Remove the 'empty' string here, now that min/max wavelength
-            # calculations have been completed.
-            bandpass_name = bandpass_name.replace('empty', '')
-            if len(bandpass_name) == 0:
-                bandpass_name = None
-            elif '+' in bandpass_name:
-                bandpass_name = bandpass_name.replace('+', '').strip()
+            if bandpass_name is not None and 'empty' in bandpass_name:
+                # DB 02-12-19 - But some files have filters open1-6 and empty_01.
+                # So likely less confusing to remove ‘empty*’ completely.
+                #
+                # Remove the 'empty' string here, now that min/max wavelength
+                # calculations have been completed.
+                bandpass_name = bandpass_name.replace('empty', '')
+                if len(bandpass_name) == 0:
+                    bandpass_name = None
+                elif '+' in bandpass_name:
+                    bandpass_name = bandpass_name.replace('+', '').strip()
 
-        if math.isclose(self.fm.central_wl, 0.0):
-            energy = SpectralWCS(
-                axis=CoordAxis1D(axis=Axis(ctype='WAVE', cunit='um')),
-                specsys='TOPOCENT',
-                ssyssrc=None,
-                ssysobs=None,
-                bandpass_name=bandpass_name,
-            )
+            if math.isclose(self.fm.central_wl, 0.0):
+                energy = SpectralWCS(
+                    axis=CoordAxis1D(axis=Axis(ctype='WAVE', cunit='um')),
+                    specsys='TOPOCENT',
+                    ssyssrc=None,
+                    ssysobs=None,
+                    bandpass_name=bandpass_name,
+                )
+            else:
+                energy = SpectralWCS(
+                    axis=axis,
+                    specsys='TOPOCENT',
+                    ssyssrc='TOPOCENT',
+                    ssysobs='TOPOCENT',
+                    bandpass_name=bandpass_name,
+                    resolving_power=self.fm.resolving_power,
+                )
+            chunk.energy = energy
+            # no chunk energy is derived from FITS file axis metadata, so no
+            # cutouts to support
+            chunk.energy_axis = None
         else:
-            energy = SpectralWCS(
-                axis=axis,
-                specsys='TOPOCENT',
-                ssyssrc='TOPOCENT',
-                ssysobs='TOPOCENT',
-                bandpass_name=bandpass_name,
-                resolving_power=self.fm.resolving_power,
-            )
-        chunk.energy = energy
-        # no chunk energy is derived from FITS file axis metadata, so no
-        # cutouts to support
-        chunk.energy_axis = None
+            # the goal is findable data, so log the missing metadata, but let the ingestion continue
+            self._logger.warning(f'No filter metadata for filter {filter_name}')
 
     def _get_data_label(self):
         return self._lookup.data_label(self._storage_name.file_uri)

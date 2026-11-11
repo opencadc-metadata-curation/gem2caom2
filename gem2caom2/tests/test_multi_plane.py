@@ -170,6 +170,7 @@ def test_visitor(
     test_config.change_working_directory(tmp_path.as_posix())
     test_config.proxy_file_name = 'test_proxy.pem'
     test_config.logging_level = 'ERROR'
+    gem_mocks.use_test_data_cache(test_config)
     test_config.write_to_file(test_config)
     gem_mocks.set_logging(test_config)
 

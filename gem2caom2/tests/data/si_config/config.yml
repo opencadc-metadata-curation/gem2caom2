@@ -1,9 +1,9 @@
-working_directory: /usr/src/app/gem2caom2/gem2caom2/tests/data
+working_directory: /usr/src/app/data_eng/gem2caom2/gem2caom2/tests/data
 # test value is ivo://cadc.nrc.ca/sc2repo
 resource_id: ivo://cadc.nrc.ca/sc2repo
 # test value is ivo://cadc.nrc.ca/sc2tap
 tap_id: ivo://cadc.nrc.ca/sc2repo
-proxy_file_name: /usr/src/app/gem2caom2/gem2caom2/tests/data/cadcproxy.pem
+proxy_file_name: /usr/src/app/data_eng/gem2caom2/gem2caom2/tests/data/cadcproxy.pem
 todo_file_name: todo.txt
 # values True False
 use_local_files: False
@@ -12,7 +12,7 @@ logging_level: INFO
 # values True False
 log_to_file: True
 # fully qualified name for a directory to write log files
-log_file_directory: /usr/src/app/gem2caom2/gem2caom2/tests/data/logs
+log_file_directory: /usr/src/app/data_eng/gem2caom2/gem2caom2/tests/data/logs
 # the filename where success logs are written
 #
 # this file is created in the logs directory, default is 'success_log.txt'
@@ -33,7 +33,7 @@ archive: GEM
 collection: GEMINI
 state_file_name: state.yml
 interval: 1440
-rejected_directory: /usr/src/app/gem2caom2/gem2caom2/tests/data/rejected
+rejected_directory: /usr/src/app/data_eng/gem2caom2/gem2caom2/tests/data/rejected
 rejected_file_name: rejected.yml
 storage_inventory_resource_id: ivo://cadc.nrc.ca/test
 # how to control the work that gets done

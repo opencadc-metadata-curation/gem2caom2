@@ -2,7 +2,7 @@
 # ******************  CANADIAN ASTRONOMY DATA CENTRE  *******************
 # *************  CENTRE CANADIEN DE DONNÉES ASTRONOMIQUES  **************
 #
-#  (c) 2025.                            (c) 2025.
+#  (c) 2026.                            (c) 2026.
 #  Government of Canada                 Gouvernement du Canada
 #  National Research Council            Conseil national de recherches
 #  Ottawa, Canada, K1A 0R6              Ottawa, Canada, K1A 0R6
@@ -74,7 +74,6 @@ from os.path import basename, exists, join
 
 import matplotlib.image as image
 
-from cadcutils import exceptions
 from caom2 import Observation, ProductType, ReleaseType
 from caom2pipe.caom_composable import update_file_info
 from caom2pipe import manage_composable as mc

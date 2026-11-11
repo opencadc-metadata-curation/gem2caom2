@@ -103,6 +103,7 @@ def test_run(run_mock, clients_mock, test_config, tmp_path, change_test_dir):
     test_config.change_working_directory(tmp_path.as_posix())
     test_config.proxy_file_name = 'test_proxy.pem'
     test_config.task_types = [TaskType.INGEST]
+    gem_mocks.use_test_data_cache(test_config)
     test_config.write_to_file(test_config)
 
     with open(test_config.work_fqn, 'w') as f:
@@ -145,6 +146,7 @@ def test_run_incremental_rc(
     test_config.proxy_file_name = 'testproxy.pem'
     test_config.task_types = [TaskType.INGEST]
     test_config.interval = 600
+    gem_mocks.use_test_data_cache(test_config)
     Config.write_to_file(test_config)
     with open(test_config.proxy_fqn, 'w') as f:
         f.write('test content')
@@ -386,6 +388,7 @@ def test_run_by_incremental_reproduce(
     test_config.proxy_file_name = 'cadcproxy.pem'
     test_config.task_types = [TaskType.VISIT]
     test_config.interval = 70
+    gem_mocks.use_test_data_cache(test_config)
     test_config.write_to_file(test_config)
 
     with open(test_config.proxy_fqn, 'w') as f:
@@ -455,6 +458,7 @@ def test_run_state_compression_commands(
     test_config.data_sources = ['/test_files']
     test_config.retry_failures = False
     test_config.cleanup_files_when_storing = False
+    gem_mocks.use_test_data_cache(test_config)
     test_config.write_to_file(test_config)
 
     with open(test_config.proxy_fqn, 'w') as f:
@@ -508,6 +512,7 @@ def test_run_is_valid_fails(cap_mock, summary_mock, test_config, tmp_path):
     orig_cwd = os.getcwd()
     try:
         os.chdir(tmp_path)
+        gem_mocks.use_test_data_cache(test_config)
         test_config.write_to_file(test_config)
 
         with open(test_config.work_fqn, 'w') as f:
@@ -555,6 +560,7 @@ def test_run_incremental_diskfiles(
     test_config.proxy_file_name = 'testproxy.pem'
     test_config.task_types = [TaskType.INGEST]
     test_config.interval = 28800
+    gem_mocks.use_test_data_cache(test_config)
     Config.write_to_file(test_config)
     with open(test_config.proxy_fqn, 'w') as f:
         f.write('test content')
@@ -610,6 +616,7 @@ def test_run_incremental_diskfiles_limit(
     test_config.task_types = [TaskType.INGEST]
     test_config.interval = 60
     test_config.logging_level = 'WARNING'
+    gem_mocks.use_test_data_cache(test_config)
     Config.write_to_file(test_config)
     with open(test_config.proxy_fqn, 'w') as f:
         f.write('test content')

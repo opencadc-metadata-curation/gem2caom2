@@ -182,6 +182,7 @@ def test_going_public(
     look_pull_put_mock,
     test_config,
     tmp_path,
+    change_test_dir,
 ):
     # test case is the data is going public, so the file needs to be
     # retrieved from archive.gemini.edu. The mocks are for the case
@@ -204,6 +205,8 @@ def test_going_public(
     test_config.change_working_directory(tmp_path.as_posix())
     test_config.proxy_file_name = 'test_proxy.pem'
     test_config.log_to_file = True
+    gem_mocks.use_test_data_cache(test_config)
+    test_config.write_to_file(test_config)
 
     with open(test_config.proxy_fqn, 'w') as f:
         f.write('test content')
